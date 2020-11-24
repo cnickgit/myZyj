@@ -83,6 +83,7 @@
           return {
               active: 0,
               searchName: '',
+              cookie: '',
           }
        },
        methods: {
@@ -91,6 +92,7 @@
                var exp = new Date();
                exp.setTime(exp.getTime() + Days * 24 * 60 * 60 * 1000);
                document.cookie = name + "=" + escape(value) + ";expires=" + exp.toGMTString();
+               this.cookie = name + "=" + escape(value) + ";expires=" + exp.toGMTString();
                console.log(document.cookie);
            },
            search(){
@@ -108,15 +110,8 @@
            },
            login(){
                //先模拟登陆
-               let data = {
-                   m: "login",
-                   username:"13868612368",
-                   password:"gl112233",
-                   parcame:"ajax",
-                   type:1,
-                   origin:"cktoolApp"
-               }
-               this.$axios.get("/zyjLogin",data).then((res) => {
+               let cookies = '';
+               this.$axios.get("/zyjLogin?cookies="+this.cookie).then((res) => {
                  console.log("res:",res)
                  this.setCookiejs("13868612368","13868612368"+"&"+window.btoa("gl112233"))
                })
@@ -131,5 +126,6 @@
 <style scoped>
 .content{
   margin-top: 20px;
+  margin-left: 30px;
 }
 </style>
